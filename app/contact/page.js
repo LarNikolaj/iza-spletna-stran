@@ -9,7 +9,9 @@ export default function ContactPage() {
       <div className="space-y-6 text-lg">
         <div>
           <p className="text-sm uppercase tracking-wide text-gray-500 mb-1">Email</p>
-          <a href="mailto:hello@example.com" className="hover:underline">hello@example.com</a>
+         <a href="mailto:hello@example.com" className="text-klein hover:underline decoration-klein decoration-1 underline-offset-4">
+  hello@example.com
+</a>
         </div>
         <div>
           <p className="text-sm uppercase tracking-wide text-gray-500 mb-1">Instagram</p>
