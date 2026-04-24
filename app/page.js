@@ -2,48 +2,64 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
-import { allProjectsQuery } from '@/sanity/lib/queries'
+import { groq } from 'next-sanity'
 
-export const revalidate = 60 // rebuild the page every 60 seconds at most
+export const revalidate = 60
+
+// Get one cover image per category to use as the panel background
+const landingQuery = groq`{
+  "art": *[_type == "project" && category == "art" && defined(coverImage)] | order(date desc, _createdAt desc)[0]{ coverImage, title },
+  "commercial": *[_type == "project" && category == "commercial" && defined(coverImage)] | order(date desc, _createdAt desc)[0]{ coverImage, title }
+}`
 
 export default async function Home() {
-  const projects = await client.fetch(allProjectsQuery)
+  const { art, commercial } = await client.fetch(landingQuery)
 
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">All Projects</h1>
-
-      {projects.length === 0 ? (
-        <p>No projects yet. Add one in the Studio.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <Link
-              key={project._id}
-              href={`/${project.category}/${project.slug}`}
-              className="group"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
-                {project.coverImage && (
-                  <Image
-                    src={urlFor(project.coverImage).width(800).url()}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                )}
-              </div>
-              <div className="mt-2">
-                <h2 className="text-lg">{project.title}</h2>
-                <p className="text-sm text-gray-500 uppercase tracking-wide">
-                  {project.category}
-                </p>
-              </div>
-            </Link>
-          ))}
+    <main className="h-screen w-screen flex flex-col md:flex-row overflow-hidden">
+      {/* ART PANEL */}
+      <Link
+        href="/art"
+        className="relative group flex-1 overflow-hidden bg-black"
+      >
+        {art?.coverImage && (
+          <Image
+            src={urlFor(art.coverImage).width(1600).url()}
+            alt=""
+            fill
+            className="object-cover opacity-60 transition-all duration-700 group-hover:opacity-80 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h2 className="text-white text-6xl md:text-8xl font-bold tracking-wider transition-transform duration-500 group-hover:scale-110">
+            ART
+          </h2>
         </div>
-      )}
+      </Link>
+
+      {/* COMMERCIAL PANEL */}
+      <Link
+        href="/commercial"
+        className="relative group flex-1 overflow-hidden bg-black"
+      >
+        {commercial?.coverImage && (
+          <Image
+            src={urlFor(commercial.coverImage).width(1600).url()}
+            alt=""
+            fill
+            className="object-cover opacity-60 transition-all duration-700 group-hover:opacity-80 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
+        )}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h2 className="text-white text-6xl md:text-8xl font-bold tracking-wider transition-transform duration-500 group-hover:scale-110">
+            COMMERCIAL
+          </h2>
+        </div>
+      </Link>
     </main>
   )
 }
