@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import localFont from "next/font/local";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -13,10 +14,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
+
+const leMurmure = localFont({
+  src: "../public/fonts/le-murmure.otf",
   variable: "--font-display",
-  subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -28,10 +30,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} min-h-full flex flex-col bg-[#F5F2ED] text-neutral-900 antialiased font-sans`}
-      >
+  className={`${geistSans.variable} ${geistMono.variable} ${leMurmure.variable} min-h-full flex flex-col bg-[#F5F2ED] text-neutral-900 antialiased font-sans`}
+>
         <Header />
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 pt-32 md:pt-40">{children}</div>
         <Footer />
       </body>
     </html>

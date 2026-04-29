@@ -10,6 +10,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'string',
+      description: 'Optional short subtitle shown above the project title.',
+    },
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -49,7 +55,13 @@ export default {
       title: 'Description',
       type: 'text',
       description: 'A short paragraph about this project.',
-      rows: 4,
+      rows: 6,
+    },
+    {
+      name: 'videoUrl',
+      title: 'Video URL',
+      type: 'url',
+      description: 'Optional YouTube or Vimeo URL. Will be embedded in the project. Paste full URL like https://youtube.com/watch?v=... or https://vimeo.com/...',
     },
     {
       name: 'gallery',

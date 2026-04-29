@@ -29,11 +29,16 @@ export const projectBySlugQuery = groq`
   *[_type == "project" && slug.current == $slug][0] {
     _id,
     title,
+    subtitle,
     "slug": slug.current,
     category,
     coverImage,
     description,
-    gallery,
+    videoUrl,
+    gallery[]{
+      ...,
+      "aspectRatio": asset->metadata.dimensions.aspectRatio
+    },
     date
   }
 `
