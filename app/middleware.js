@@ -15,7 +15,7 @@ export function middleware(request) {
   // Otherwise show the password page
   const url = request.nextUrl.clone()
   url.pathname = '/locked'
-  return NextResponse.rewrite(url)
+  return NextResponse.redirect(url)
 }
 
 export const config = {
