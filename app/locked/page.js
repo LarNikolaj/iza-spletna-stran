@@ -34,3 +34,4 @@ export default function Locked() {
       </form>
     </div>
   )
+}
