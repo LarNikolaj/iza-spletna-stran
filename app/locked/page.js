@@ -13,12 +13,11 @@ export default function Locked() {
       method: 'POST',
       body: JSON.stringify({ password: value }),
     })
-    if (res.ok) {
-      router.refresh()
-    } else {
-      setError(true)
-    }
-  }
+ if (res.ok) {
+  window.location.href = '/'
+} else {
+  setError(true)
+}
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center">
