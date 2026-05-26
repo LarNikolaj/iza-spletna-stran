@@ -1,11 +1,9 @@
 "use client";
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function Locked() {
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
-  const router = useRouter()
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -13,11 +11,12 @@ export default function Locked() {
       method: 'POST',
       body: JSON.stringify({ password: value }),
     })
- if (res.ok) {
-  window.location.href = '/'
-} else {
-  setError(true)
-}
+    if (res.ok) {
+      window.location.href = '/'
+    } else {
+      setError(true)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center">
@@ -35,4 +34,3 @@ export default function Locked() {
       </form>
     </div>
   )
-}
